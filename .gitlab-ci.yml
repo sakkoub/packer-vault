@@ -23,8 +23,5 @@ get_packer:
     paths:
       - packer
   script:
-
     – echo "Fetching packer"
-    - wget https://github.com/hashicorp/packer/archive/v1.6.5.zip
-    – unzip v1.6.5.zip
-    – chmod +x packer
+
