@@ -5,7 +5,6 @@ stages:
 image: hashicorp/packer:light
 
 before_script:
-  - 
   - git config -global hhtp.sslVerify false 
 
 
