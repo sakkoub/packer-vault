@@ -1,0 +1,30 @@
+
+stages:
+  - build
+  - deploy
+
+image: ubuntu:18.04
+
+before_script:
+  - apt update && apt install  --assume-yes git wget unzip
+  - git config --global http.sslVerify false 
+
+
+build:
+  stage: build 
+  script: 
+    - packer version
+  when: manual
+
+get_packer:
+  stage: build 
+  when: manual
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+      - packer
+  script:
+    – echo "Fetching packer"
+    - wget https://github.com/hashicorp/packer/archive/v1.6.5.zip
+    – unzip v1.6.5.zip
+    – chmod +x packer

@@ -19,5 +19,5 @@ get_packer:
     paths:
       - packer
   script:
-    – echo "Fetching packer"
+    - echo "hi"
   
