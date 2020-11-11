@@ -5,7 +5,7 @@ stages:
 image: ubuntu:18.04
 
 before_script:
-  - apt update && apt install  --assume-yes git 
+  - apt update && apt install  --assume-yes git && apt install --assume-yes wget 
   - git config --global http.sslVerify false 
 
 
