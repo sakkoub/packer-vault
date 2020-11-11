@@ -4,7 +4,10 @@ stages:
 
 image: ubuntu:18.04
 
-
+before_script:
+  - apt update && apt install  --assume-yes git wget unzip
+  - git config --global http.sslVerify false 
+  
 build:
   stage: build 
   script: 
