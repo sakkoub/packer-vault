@@ -8,8 +8,14 @@ before_script:
   - git config -global hhtp.sslVerify false 
 
 
+build:
+  stage: build 
+  script: 
+    - packer version
+
 get_packer:
-  stage: build
+  stage: build 
+  when: manual
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
