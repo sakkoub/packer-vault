@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
 
-image: hashicorp/packer:light
+image: hashicorp/packer:full
 
 before_script:
   - git config -global hhtp.sslVerify false 
