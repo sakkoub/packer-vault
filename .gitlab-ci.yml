@@ -29,4 +29,4 @@ get_packer:
 build_image:
   stage: build
   script:
-    - ../packer  build packerrun.json
+    - ./packer  build packerrun.json
