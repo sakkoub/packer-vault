@@ -2,9 +2,10 @@ stages:
   - build
   - deploy
 
-image: ubuntu
+image: hashicorp/packer:light
 
 before_script:
+  - 
   - git config -global hhtp.sslVerify false 
 
 
