@@ -6,7 +6,7 @@ image: ubuntu:18.04
 
 before_script:
   - apt update && apt install  --assume-yes git 
-  - git config -global hhtp.sslVerify false 
+  - git config --global http.sslVerify false 
 
 
 build:
