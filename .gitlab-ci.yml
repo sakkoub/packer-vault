@@ -5,7 +5,7 @@ stages:
 image: ubuntu:18.04
 
 before_script:
-  - apt install git-all
+  - apt update && apt install git
   - git config -global hhtp.sslVerify false 
 
 
