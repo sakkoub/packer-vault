@@ -2,9 +2,10 @@ stages:
   - build
   - deploy
 
-image: hashicorp/packer:full
+image: ubuntu:18.04
 
 before_script:
+  -  sudo apt install git-all
   - git config -global hhtp.sslVerify false 
 
 
@@ -12,6 +13,7 @@ build:
   stage: build 
   script: 
     - packer version
+  when: manual
 
 get_packer:
   stage: build 
