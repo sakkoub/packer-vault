@@ -32,10 +32,7 @@ create_tls:
   script:
     - cd modules/private-tls-cert
     - ls -la
-    - terraform init 
-    - terraform plan
-    - terraform apply
-
+    
   
 build_image:
   stage: build
