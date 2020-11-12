@@ -9,13 +9,17 @@ stages:
   - build 
   - gettools
 before_script:
-  - apt update && apt install  --assume-yes git wget unzip
-  - git config --global http.sslVerify false 
+  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+  - terraform --version
+  - terraform init -var-file=modules/private-tls-cert/variables.tf
+  # - apt update && apt install  --assume-yes git wget unzip
+  # - git config --global http.sslVerify false 
+  
 
 validate:
   stage: validate
   script:
-    - terraform validate
+    - terraform validate -var-file=modules/private-tls-cert/variables.tf
 
 get_packer:
   stage: gettools 
@@ -33,16 +37,9 @@ get_packer:
 create_tls:
   when: manual
   stage: build
-  before_script:
-    - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
-    - terraform --version
-    - terraform init
   script:
-    - cd modules/private-tls-cert
-    - ls -la
-    - terraform init 
-    - terraform plan
-    - terraform apply
+    - terraform plan -var-file=modules/private-tls-cert/variables.tf
+    - terraform apply -var-file=modules/private-tls-cert/variables.tf
 
     
   
