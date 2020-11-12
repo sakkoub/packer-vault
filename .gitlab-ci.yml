@@ -43,6 +43,7 @@ create_tls:
   stage: build
   script:
     - cd modules/private-tls-cert
+    - terraform init 
     - terraform plan 
     - terraform apply
 
