@@ -5,8 +5,8 @@ stages:
 image: registry.gitlab.com/gitlab-org/gitlab-build-images:terraform
 
 stages:
-  - gettools
   - build 
+  - gettools
 before_script:
   - apt update && apt install  --assume-yes git wget unzip
   - git config --global http.sslVerify false 
@@ -14,7 +14,7 @@ before_script:
 
 get_packer:
   stage: gettools 
-  when: always
+  when: manual
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
