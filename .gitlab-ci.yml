@@ -31,8 +31,9 @@ create_tls:
   before_script: []
   script:
     - cd modules/private-tls-cert
+    - ls -la
     - terraform init 
-    - terraform plant
+    - terraform plan
     - terraform apply
 
   
