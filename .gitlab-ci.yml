@@ -28,10 +28,17 @@ get_packer:
 create_tls:
   when: manual
   stage: build
-  before_script: []
+  before_script:
+    - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+    - terraform --version
+    - terraform init
   script:
     - cd modules/private-tls-cert
     - ls -la
+    - terraform init 
+    - terraform plan
+    - terraform apply
+
     
   
 build_image:
