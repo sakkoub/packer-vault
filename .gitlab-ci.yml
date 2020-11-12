@@ -5,12 +5,17 @@ stages:
 image: registry.gitlab.com/gitlab-org/gitlab-build-images:terraform
 
 stages:
+  - validate
   - build 
   - gettools
 before_script:
   - apt update && apt install  --assume-yes git wget unzip
   - git config --global http.sslVerify false 
 
+validate:
+  stage: validate
+  script:
+    - terraform validate
 
 get_packer:
   stage: gettools 
