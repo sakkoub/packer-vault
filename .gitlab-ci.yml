@@ -42,8 +42,9 @@ create_tls:
   when: manual
   stage: build
   script:
-    - terraform plan -var-file=modules/private-tls-cert/variables.tf
-    - terraform apply -var-file=modules/private-tls-cert/variables.tf
+    - cd modules/private-tls-cert
+    - terraform plan 
+    - terraform apply
 
     
   
