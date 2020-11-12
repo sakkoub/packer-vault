@@ -10,7 +10,6 @@ stages:
 before_script:
   - apt update && apt install  --assume-yes git wget unzip
   - git config --global http.sslVerify false 
-  -   
 
 
 get_packer:
