@@ -60,6 +60,7 @@ create_tls:
     - touch /generatedcerts/test.json
     - cp /generatedcerts/* .
     - ls /generatedcerts
+    - ls -la
 
 print_tls:
   when: manual
