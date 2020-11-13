@@ -44,7 +44,7 @@ create_tls:
   when: manual
   stage: build
   artifacts:
-    name: "keys"
+    name: "$CI_COMMIT_REF_NAME"
     paths:
       - keys.tar.gz
   script:
