@@ -46,9 +46,9 @@ create_tls:
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
-      - testfile
       - vault.crt.pem
-      - generatedcerts
+      - ca.crt.pem
+      - vault.key.pem
   script:
     - touch testfile
     - mkdir /etc/tls
@@ -58,7 +58,7 @@ create_tls:
     - terraform plan 
     - terraform apply -auto-approve
     - cd ../../
-    - cp /generatedcerts/vault.crt.pem .
+    - cp /generatedcerts/* .
     - pwd && ls -la
 
 print_tls:
