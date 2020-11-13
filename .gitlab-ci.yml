@@ -46,7 +46,7 @@ create_tls:
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
-      - keys.tar.gz
+      - /modules/private-tls-cert/keys.tar.gz
   script:
     - mkdir /etc/tls
     - mkdir /generatedcerts
