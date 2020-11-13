@@ -34,7 +34,6 @@ get_packer:
     name: "$CI_COMMIT_REF_NAME"
     paths:
       - packer
-      - /etc/tls
   script:
     - echo "Download packer"
     - wget https://releases.hashicorp.com/packer/1.5.5/packer_1.5.5_linux_amd64.zip
@@ -46,15 +45,16 @@ create_tls:
   stage: build
   artifacts:
     paths:
-      - /etc/tls/ca.crt.pem
-      - /etc/tls/vault.key.pem
-      - /etc/tls/vault.crt.pem
+      - ./certs/ca.crt.pem
+      - ./certs/vault.key.pem
+      - ./certs/vault.crt.pem
   script:
     - mkdir /etc/tls
     - cd modules/private-tls-cert
     - terraform init 
     - terraform plan 
     - terraform apply -auto-approve
+    - mkdir certs && cp /etc/tls/* ./certs
 
 print_tls:
   when: manual
