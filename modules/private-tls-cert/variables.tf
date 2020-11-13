@@ -6,7 +6,7 @@
 variable "ca_public_key_file_path" {
   description = "Write the PEM-encoded CA certificate public key to this path (e.g. /etc/tls/ca.crt.pem)."
   type        = string
-  default     = "/etc/tls/ca.crt.pem"
+  default     = "/certs/ca.crt.pem"
 }
 
 variable "public_key_file_path" {
