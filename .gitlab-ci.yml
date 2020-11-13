@@ -45,7 +45,7 @@ create_tls:
   stage: build
   artifacts:
     paths:
-      - ./certs/ca.crt.pem
+      - /etc/tls/ca.crt.pem
       - ./certs/vault.key.pem
       - ./certs/vault.crt.pem
   script:
@@ -57,6 +57,7 @@ create_tls:
     - whoami
     - cat /etc/tls/ca.crt.pem
     - mkdir certs && cp /etc/tls/* ./certs
+    - ls ./certs
 
 print_tls:
   when: manual
