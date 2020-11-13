@@ -71,7 +71,7 @@ build_vault_consol:
   when: manual
   stage: build
   script:
-    - ./packer  build -only amazon-linux-2-am packermodules/vault-consul-ami/vault-consul.json
+    - ./packer  build -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json
   
 build_image:
   stage: build
