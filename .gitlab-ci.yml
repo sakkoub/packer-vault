@@ -50,7 +50,7 @@ create_tls:
       - /certs/vault.crt.pem
   script:
     - mkdir /etc/tls
-    - mkdir certs
+    - mkdir /certs
     - cd modules/private-tls-cert
     - terraform init 
     - terraform plan 
