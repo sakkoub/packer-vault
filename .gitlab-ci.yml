@@ -11,6 +11,7 @@ image:
 stages:
   - validate
   - build 
+  - verify
   - gettools
 before_script:
   - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
@@ -54,6 +55,13 @@ create_tls:
     - terraform init 
     - terraform plan 
     - terraform apply -auto-approve
+
+print_tls:
+  when: manual
+  stage: verify
+  script:
+    - cat /etc/tls/vault.crt.pem
+    - cat /etc/tls/vault.key.pem
 
     
   
