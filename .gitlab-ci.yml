@@ -45,19 +45,19 @@ create_tls:
   stage: build
   artifacts:
     paths:
-      - /certs/ca.crt.pem
-      - /certs/vault.key.pem
-      - /certs/vault.crt.pem
+      - /generatedcerts/ca.crt.pem
+      - /generatedcerts/vault.key.pem
+      - /generatedcerts/vault.crt.pem
   script:
     - mkdir /etc/tls
-    - mkdir /certs
+    - mkdir /generatedcerts
     - cd modules/private-tls-cert
     - terraform init 
     - terraform plan 
     - terraform apply -auto-approve
     - whoami
     - cat /etc/tls/ca.crt.pem
-    - ls /certs
+    - ls /generatedcerts
 
 print_tls:
   when: manual
