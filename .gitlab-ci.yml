@@ -56,7 +56,6 @@ create_tls:
     - terraform plan 
     - terraform apply -auto-approve
     - whoami
-    - cat /etc/tls/ca.crt.pem
     - ls /generatedcerts
 
 print_tls:
