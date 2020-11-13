@@ -46,9 +46,9 @@ create_tls:
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
-      - vault.crt.pem
-      - ca.crt.pem
-      - vault.key.pem
+      - /generatedcerts/vault.crt.pem
+      - /generatedcerts/ca.crt.pem
+      - /generatedcerts/vault.key.pem
   script:
     - touch testfile
     - mkdir /etc/tls
