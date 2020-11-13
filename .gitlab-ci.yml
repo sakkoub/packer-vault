@@ -48,6 +48,7 @@ create_tls:
     paths:
       - testfile
       - vault.crt.pem
+      - generatedcerts
   script:
     - touch testfile
     - mkdir /etc/tls
