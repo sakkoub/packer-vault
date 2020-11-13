@@ -54,6 +54,8 @@ create_tls:
     - terraform init 
     - terraform plan 
     - terraform apply -auto-approve
+    - whoami
+    - cat /etc/tls/ca.crt.pem
     - mkdir certs && cp /etc/tls/* ./certs
 
 print_tls:
