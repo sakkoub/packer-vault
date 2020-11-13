@@ -65,8 +65,8 @@ print_tls:
   when: manual
   stage: verify
   script:
-    - cat /etc/tls/vault.crt.pem
-    - cat /certs/ca.crt.pem
+    - cat vault.crt.pem
+    - cat ca.crt.pem
 
     
   
