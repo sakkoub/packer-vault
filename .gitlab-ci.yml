@@ -48,6 +48,7 @@ create_tls:
       - /generatedcerts/ca.crt.pem
       - /generatedcerts/vault.key.pem
       - /generatedcerts/vault.crt.pem
+      - /generatedcerts/test.json
   script:
     - mkdir /etc/tls
     - mkdir /generatedcerts
@@ -56,6 +57,7 @@ create_tls:
     - terraform plan 
     - terraform apply -auto-approve
     - whoami
+    - touch /generatedcerts/test.json
     - ls /generatedcerts
 
 print_tls:
