@@ -48,7 +48,9 @@ create_tls:
   stage: build
   artifacts:
     paths:
-      - /etc/tls
+      - /etc/tls/ca.crt.pem
+      - /etc/tls/vault.key.pem
+      - /etc/tls/vault.crt.pem
   script:
     - mkdir /etc/tls
     - cd modules/private-tls-cert
