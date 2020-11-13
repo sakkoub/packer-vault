@@ -56,11 +56,12 @@ create_tls:
     - terraform apply -auto-approve
     - whoami
     - touch /generatedcerts/test.json
+    - cd ../../
     - cp /generatedcerts/* .
     - ls /generatedcerts
+    - ls -la
     - tar -czvf keys.tar.gz /generatedcerts
     - pwd 
-    - ls -la
 
 print_tls:
   when: manual
