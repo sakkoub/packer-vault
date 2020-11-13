@@ -46,8 +46,9 @@ create_tls:
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
-      - generatedcerts
+      - testfile
   script:
+    - touch testfile
     - mkdir /etc/tls
     - mkdir /generatedcerts
     - cd modules/private-tls-cert
