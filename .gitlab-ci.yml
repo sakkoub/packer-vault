@@ -10,6 +10,7 @@ image:
 
 stages:
   - validate
+  - gettools 
   - build 
   - verify
   - gettools
@@ -42,16 +43,14 @@ get_packer:
 
 create_tls:
   when: manual
-  stage: build
+  stage: gettools
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
     paths:
-      - /generatedcerts/vault.crt.pem
-      - /generatedcerts/ca.crt.pem
-      - /generatedcerts/vault.key.pem
+      - vault.crt.pem
+      - ca.crt.pem
+      - vault.key.pem
   script:
-    - touch testfile
-    - mkdir /etc/tls
     - mkdir /generatedcerts
     - cd modules/private-tls-cert
     - terraform init 
@@ -59,7 +58,7 @@ create_tls:
     - terraform apply -auto-approve
     - cd ../../
     - cp /generatedcerts/* .
-    - pwd && ls -la
+
 
 print_tls:
   when: manual
@@ -68,7 +67,11 @@ print_tls:
     - cat vault.crt.pem
     - cat ca.crt.pem
 
-    
+build_vault_consol:
+  when: manual
+  stage: build
+  script:
+    - ./packer  build packermodules/vault-consul-ami/vault-consul.json
   
 build_image:
   stage: build
