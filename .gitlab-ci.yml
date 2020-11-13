@@ -44,6 +44,7 @@ create_tls:
   when: manual
   stage: build
   artifacts:
+    name: "keys"
     paths:
       - keys.tar.gz
   script:
