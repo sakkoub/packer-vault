@@ -45,10 +45,7 @@ create_tls:
   stage: build
   artifacts:
     paths:
-      - ca.crt.pem
-      - vault.key.pem
-      - vault.crt.pem
-      - test.json
+      - keys.tar.gz
   script:
     - mkdir /etc/tls
     - mkdir /generatedcerts
@@ -60,6 +57,7 @@ create_tls:
     - touch /generatedcerts/test.json
     - cp /generatedcerts/* .
     - ls /generatedcerts
+    - tar -czvf keys.tar.gz /generatedcerts
     - ls -la
 
 print_tls:
