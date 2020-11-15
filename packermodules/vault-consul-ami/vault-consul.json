@@ -51,7 +51,7 @@
     },
     "ssh_username": "ubuntu"
   },{
-    "ami_name": "vault-consul-amazon-linux-2-{{isotime | clean_resource_name}}-{{uuid}}",
+    "ami_name": "vault-consul-amazon-linux-2-sakkoub",
     "ami_description": "An Amazon Linux 2 AMI that has Vault and Consul installed.",
     "instance_type": "t2.micro",
     "name": "amazon-linux-2-ami",
