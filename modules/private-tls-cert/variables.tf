@@ -6,25 +6,25 @@
 variable "ca_public_key_file_path" {
   description = "Write the PEM-encoded CA certificate public key to this path (e.g. /etc/tls/ca.crt.pem)."
   type        = string
-  default     = "/etc/tls/ca.crt.pem"
+  default     = "/generatedcerts/ca.crt.pem"
 }
 
 variable "public_key_file_path" {
   description = "Write the PEM-encoded certificate public key to this path (e.g. /etc/tls/vault.crt.pem)."
   type        = string
-  default     = "/etc/tls/vault.crt.pem"
+  default     = "/generatedcerts/vault.crt.pem"
 }
 
 variable "private_key_file_path" {
   description = "Write the PEM-encoded certificate private key to this path (e.g. /etc/tls/vault.key.pem)."
   type        = string
-  default     = "/etc/tls/vault.key.pem"
+  default     = "/generatedcerts/vault.key.pem"
 }
 
 variable "owner" {
   description = "The OS user who should be given ownership over the certificate files."
   type        = string
-  default     = "sakkoub"
+  default     = "root"
 }
 
 variable "organization_name" {
