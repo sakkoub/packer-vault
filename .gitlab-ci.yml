@@ -12,6 +12,7 @@ stages:
   - validate
   - gettools 
   - build 
+  - deploy
   - verify
   - gettools
 before_script:
@@ -67,11 +68,21 @@ print_tls:
     - cat vault.crt.pem
     - cat ca.crt.pem
 
-build_vault_consol:
+build_vault_consul_ami:
   when: manual
   stage: build
   script:
     - ./packer  build -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json
+
+instal_vault_consul:
+  when: manual
+  stage: deploy
+  script:
+    - cd root-example
+    - terraform init 
+    - terraform plan 
+    - terraform apply -auto-approve
+    - cd ../../
   
 build_image:
   stage: build
