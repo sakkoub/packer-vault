@@ -103,7 +103,7 @@ module "consul_iam_policies_servers" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 data "template_file" "user_data_vault_cluster" {
-  template = "user-data-vault.sh")
+  template = "user-data-vault.sh"
 
   vars = {
     aws_region               = data.aws_region.current.name
