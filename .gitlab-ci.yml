@@ -14,7 +14,7 @@ stages:
   - build 
   - deploy
   - verify
-  - gettools
+  - destroy
 before_script:
   - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
   - terraform --version
@@ -83,6 +83,16 @@ instal_vault_consul:
     - terraform init 
     - terraform plan 
     - terraform apply -auto-approve
+    - cd ../../
+
+delete_vault_consul:
+  when: manual
+  stage: destroy
+  script:
+    - cd root-example
+    - terraform init 
+    - terraform plan 
+    - terraform destroy -auto-approve
     - cd ../../
   
 build_image:
