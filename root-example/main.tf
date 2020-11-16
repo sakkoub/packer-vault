@@ -202,7 +202,7 @@ module "consul_cluster" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 data "template_file" "user_data_consul" {
-  template = "user-data-consul.sh")
+  template = "user-data-consul.sh"
 
   vars = {
     consul_cluster_tag_key   = var.consul_cluster_tag_key
