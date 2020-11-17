@@ -72,17 +72,23 @@ print_tls:
 build_vault_consul_ami:
   when: manual
   stage: build
+  artifacts:
+    paths:
+      - machineid.txt
   script:
-    - ./packer  build -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json
+    - ./packer  build -machine-readable -force_deregister=true -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json | tee build.log
+    - grep 'artifact,0,id' build.log | cut -d, -f6 | cut -d: -f2 > machineid.txt
+    - cat machineid.txt
 
 instal_vault_consul:
   when: manual
   stage: deploy
   script:
+    - amiid=$(cat $'machineid.txt')
     - cd root-example
     - terraform init 
     - terraform plan 
-    - terraform apply -auto-approve
+    - terraform apply -auto-approve -var="ami_id=$amiid"
     - cd ../../
 
 delete_vault_consul:
