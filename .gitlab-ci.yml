@@ -76,7 +76,7 @@ build_vault_consul_ami:
     paths:
       - ami.txt
   script:
-    - packer build -force_deregister=true -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json 2>&1 | sudo tee output.txt
+    - packer build -force_deregister=true -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json 2>&1 | tee output.txt
     - tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' >  ami.txt
     - cat ami.txt
 
@@ -101,8 +101,8 @@ delete_vault_consul:
     - terraform destroy -auto-approve
     - cd ../../
   
-build_image:
-  stage: build
-  when: manual
-  script:
-    - ./packer  build packerrun.json
+#build_image:
+#  stage: build
+#  when: manual
+#  script:
+#    - ./packer  build packerrun.json
