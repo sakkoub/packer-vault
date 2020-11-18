@@ -13,7 +13,13 @@ terraform {
   # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
   # forwards compatible with 0.13.x code.
   required_version = ">= 0.12.26"
+  backend "s3" {
+    bucket = "sakkoubterraformdemo"
+    key    = "vaultstate/terraform.tfstate"
+    region = "ap-southeast-2"
+  }
 }
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # AUTOMATICALLY LOOK UP THE LATEST PRE-BUILT AMI
@@ -59,7 +65,7 @@ module "vault_cluster" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
   # source = "github.com/hashicorp/terraform-aws-vault//modules/vault-cluster?ref=v0.0.1"
-  source = "./modules/vault-cluster"
+  source = "../modules/vault-cluster"
 
   cluster_name  = var.vault_cluster_name
   cluster_size  = var.vault_cluster_size
@@ -103,7 +109,7 @@ module "consul_iam_policies_servers" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 data "template_file" "user_data_vault_cluster" {
-  template = file("${path.module}/examples/root-example/user-data-vault.sh")
+  template = "user-data-vault.sh"
 
   vars = {
     aws_region               = data.aws_region.current.name
@@ -137,7 +143,7 @@ module "vault_elb" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
   # source = "github.com/hashicorp/terraform-aws-vault//modules/vault-elb?ref=v0.0.1"
-  source = "./modules/vault-elb"
+  source = "../modules/vault-elb"
 
   name = var.vault_cluster_name
 
@@ -202,7 +208,7 @@ module "consul_cluster" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 data "template_file" "user_data_consul" {
-  template = file("${path.module}/examples/root-example/user-data-consul.sh")
+  template = "user-data-consul.sh"
 
   vars = {
     consul_cluster_tag_key   = var.consul_cluster_tag_key
