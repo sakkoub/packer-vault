@@ -1,0 +1,108 @@
+stages:
+  - build
+  - deploy
+
+image: 
+  name: hashicorp/terraform
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+stages:
+  - gettools 
+  - build 
+  - deploy
+  - verify
+  - destroy
+before_script:
+  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+  - terraform --version
+  # - apt update && apt install  --assume-yes git wget unzip
+  # - git config --global http.sslVerify false 
+  
+
+
+
+get_packer:
+  stage: gettools 
+  when: always
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+      - packer
+      - /usr/local/bin/aws
+  script:
+    - echo "Download packer"
+    - wget https://releases.hashicorp.com/packer/1.5.5/packer_1.5.5_linux_amd64.zip
+    - unzip packer_1.5.5_linux_amd64.zip
+    - chmod +x packer
+    # - wget "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" 
+    # - unzip awscli-bundle.zip
+    # - ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+
+
+create_tls:
+  when: always
+  stage: gettools
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+      - vault.crt.pem
+      - ca.crt.pem
+      - vault.key.pem
+  script:
+    - mkdir /generatedcerts
+    - cd modules/private-tls-cert
+    - terraform init 
+    - terraform plan 
+    - terraform apply -auto-approve
+    - cd ../../
+    - cp /generatedcerts/* .
+    #- aws s3 cp  s3://sakkoubterraformdemo/vault.key.pem vault.key.pem
+
+
+print_tls:
+  when: manual
+  stage: verify
+  script:
+    - cat vault.crt.pem
+    - cat ca.crt.pem
+
+build_vault_consul_ami:
+  when: manual
+  stage: build
+  artifacts:
+    paths:
+      - ami.txt
+  script:
+    - ./packer build -only amazon-linux-2-ami packermodules/vault-consul-ami/vault-consul.json 2>&1 | tee output.txt
+    - tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' >  ami.txt
+    - cat ami.txt
+
+instal_vault_consul:
+  when: manual
+  stage: deploy
+  script:
+    - amiid=$(cat $'ami.txt')
+    - cd root-example
+    - terraform init 
+    - terraform plan 
+    - terraform apply -auto-approve -var="ami_id=$amiid"
+    - terraform output 
+    - cd ../../
+
+delete_vault_consul:
+  when: manual
+  stage: destroy
+  script:
+    - cd root-example
+    - terraform init 
+    - terraform plan 
+    - terraform destroy -auto-approve
+    - cd ../../
+  
+#build_image:
+#  stage: build
+#  when: manual
+#  script:
+#    - ./packer  build packerrun.json
